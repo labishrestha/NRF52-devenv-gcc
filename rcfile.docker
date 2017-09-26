@@ -1,0 +1,38 @@
+# source file
+# export paths for toolchain, jlink, and programmer
+
+# Project
+export TOP=$PWD
+export PRJROOT=$TOP/sdk/examples/ble_peripheral/ble_app_hrs_freertos
+export MAKEPATH="$PRJROOT/pca10040/s132/armgcc"
+export OUTPATH="$MAKEPATH/_build"
+
+# softdevice
+export SDVER="0x9E" # SD_FWID_GET(MBR_SIZE) or (nrfutil pkg generate --help)
+export SDHEX=$TOP/sdk/components/softdevice/s132/hex/s132_nrf52_4.0.4_softdevice.hex
+
+# Target
+export TARGET="nrf52832_xxaa"
+export TARGETOUTFILE="${TARGET}_s132"
+export APP=$OUTPATH/${TARGET}.hex
+
+# Bootloader
+export BTLDR=$TOP/sdk/examples/dfu/bootloader_secure_ble/pca10040_debug/armgcc
+export BOOTOUTFILE=${BTLDR}/_build/${TARGETOUTFILE}.hex
+export DFU_FILE=app_dfu_package.zip
+
+# Libraries
+export UECC=$TOP/sdk/external/micro-ecc/nrf52_armgcc/armgcc
+export CMSIS_DSP_DIR=/usr/src/CMSIS/CMSIS/DSP_Lib/Source
+
+# Openocd
+export OPENOCD_DIR=/usr/local/share/openocd
+export OPENOCD_INTERFACE="$OPENOCD_DIR/scripts/interface/jlink.cfg"
+export OPENOCD_TARGET="$OPENOCD_DIR/scripts/target/nrf52.cfg"
+
+# Tooling
+ARM=/usr/local/gcc-arm-none-eabi-4_9-2015q3/bin
+NPROG=/usr/local/nrfjprog/nrfjprog/
+MHEX=/usr/local/nrfjprog/mergehex/
+
+export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$ARM:$NPROG:$MHEX:$RTT:$PATH"
