@@ -1,37 +1,52 @@
-## Welcome to GitHub Pages
+## Nordic NRF52 ARM-GCC Development Environment
 
-You can use the [editor on GitHub](https://github.com/labishrestha/labishrestha.github.io/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
+This project installs docker image that hosts a complete Nordic NRF52 Development Environment with ARM-GCC tooling on a container.
+The development environment is setup to run completely on a docker container on Linux.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+Features:
+- Fully Dockerized ARM-GCC Tooling for Nordic NRF52 with gdb
+- Tested on Ubuntu 16.1 or later
+- Works with Nordic NRF5x SDK 12 or later
+- Openocd gdb server for debugging
+- Segger J-Link to download images to target
+- Easy to add and expand tools
 
-### Markdown
+The bash script **do** manages all the tasks
+The file **rcfile.docker** contains all the firmware project specific settings
+The bash script **build.sh** handles all the tooling in the background
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+## Setting up Development environment
 
-```markdown
-Syntax highlighted code block
+### Setup up Docker build system
+1. Install docker with admin privileges (Instructions on Docker website)
+2. Enter the following command to create docker image and install all necessary packages
+```
+./do up
+```
+3. Download Nordic SDK and unzip the contents inside **sdk** folder inthe top folder (where the *Dockerfile* is located)
 
-# Header 1
-## Header 2
-### Header 3
+## Using build system
 
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+1. Edit **rcfile.docker** and modify the **PRJROOT** variable to point to the desired project folder
+2. Enter the following command to build the project and flash to target
+```
+./do flash
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+Alternately, its also possible to run an interactive shell on the docker container and build directly on the container. To login to the docker container, enter:
+```
+  ./do bash
+```
 
-### Jekyll Themes
+Project can be built on the docker container using the ***build.sh*** script directly. To build on docker, enter the container in interactive shell, then run enter the following command:
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/labishrestha/labishrestha.github.io/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+```
+./build.sh flash
+```
 
-### Support or Contact
+To debug the target using gdb, enter the following command:
+```
+./build.sh gdb
+```
 
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+All the arguments passed to *do* script (except 'up') is forwared to *build.sh* script. So, its not really necessary to shell into the container unless needed.
