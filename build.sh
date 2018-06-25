@@ -17,7 +17,7 @@ elif [[ "$1" == "openocd" ]]; then
 		&& (openocd -f $OPENOCD_INTERFACE -c "transport select swd" \
 				-f $OPENOCD_TARGET > /dev/null 2>&1)
 elif [[ "$1" == "flash" || "$1" == "f" ]]; then
-    make -C $MAKEPATH clean && make -C $MAKEPATH $TARGET flash
+    make -C $MAKEPATH clean && make -C $MAKEPATH $TARGET flash_softdevice flash
 		make -C $MAKEPATH clean
 elif [[ "$1" == "boot" ]]; then
 		if [ ! -d "$OUTPATH" ]; then

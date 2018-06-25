@@ -4,20 +4,26 @@
 # Project
 export TOP=$PWD
 export PRJROOT=$TOP/sdk/examples/ble_peripheral/ble_app_hrs_freertos
+#export MAKEPATH="$PRJROOT/pca10056/s140/armgcc"
 export MAKEPATH="$PRJROOT/pca10040/s132/armgcc"
 export OUTPATH="$MAKEPATH/_build"
 
-# softdevice
-export SDVER="0x9E" # SD_FWID_GET(MBR_SIZE) or (nrfutil pkg generate --help)
-export SDHEX=$TOP/sdk/components/softdevice/s132/hex/s132_nrf52_4.0.4_softdevice.hex
+# softdevice version string (nrfutil pkg generate --help)
+#export SDVER="0xA8" # s132_nrf52_6.0.0
+#export SDVER="0xA9" # s140_nrf52_6.0.0
+export SDVER="0x9E" # s132_nrf52_4.0.4
+
+#export SDHEX=$TOP/sdk/components/softdevice/s140/hex/s140_nrf52_6.0.0_softdevice.hex
+export SDHEX=$TOP/sdk/components/softdevice/s132/hex/s132_nrf52_6.0.0_softdevice.hex
 
 # Target
+#export TARGET="nrf52840_xxaa"
 export TARGET="nrf52832_xxaa"
 export TARGETOUTFILE="${TARGET}_s132"
 export APP=$OUTPATH/${TARGET}.hex
 
 # Bootloader
-export BTLDR=$TOP/sdk/examples/dfu/bootloader_secure_ble/pca10040_debug/armgcc
+export BTLDR=$TOP/sdk/examples/dfu/secure_bootloader/pca10040_ble_debug/armgcc
 export BOOTOUTFILE=${BTLDR}/_build/${TARGETOUTFILE}.hex
 export DFU_FILE=app_dfu_package.zip
 
@@ -31,8 +37,8 @@ export OPENOCD_INTERFACE="$OPENOCD_DIR/scripts/interface/jlink.cfg"
 export OPENOCD_TARGET="$OPENOCD_DIR/scripts/target/nrf52.cfg"
 
 # Tooling
-ARM=/usr/local/gcc-arm-none-eabi-4_9-2015q3/bin
-NPROG=/usr/local/nrfjprog/nrfjprog/
-MHEX=/usr/local/nrfjprog/mergehex/
+export ARM=/usr/local/gcc-arm-none-eabi-7-2017-q4-major
+export NPROG=/usr/local/nrfjprog/nrfjprog/
+export MHEX=/usr/local/nrfjprog/mergehex/
 
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:$ARM:$NPROG:$MHEX:$RTT:$PATH"
