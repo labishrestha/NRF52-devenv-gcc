@@ -28,9 +28,15 @@ RUN dpkg --add-architecture i386 && \
 
 RUN wget https://launchpad.net/gcc-arm-embedded/4.9/4.9-2015-q3-update/+download/gcc-arm-none-eabi-4_9-2015q3-20150921-linux.tar.bz2
 RUN mkdir -p /usr/local/ && tar -xf gcc-arm-none-eabi-4_9-2015q3-20150921-linux.tar.bz2 -C /usr/local
-RUN wget https://www.segger.com/downloads/jlink/JLink_Linux_V614_x86_64.deb --post-data='submit=1&accept_license_agreement=accepted'
-RUN dpkg -i JLink_Linux_V614_x86_64.deb
-RUN mkdir -p /usr/local/nrfjprog && wget -qO- http://www.nordicsemi.com/eng/nordic/download_resource/51505/20/43056711 | tar -C /usr/local/nrfjprog/ -xvf -
+
+RUN wget https://developer.arm.com/-/media/Files/downloads/gnu-rm/7-2017q4/gcc-arm-none-eabi-7-2017-q4-major-linux.tar.bz2
+RUN tar -xf gcc-arm-none-eabi-7-2017-q4-major-linux.tar.bz2 -C /usr/local
+
+RUN wget https://www.segger.com/downloads/jlink/JLink_Linux_V632g_x86_64.deb --post-data='submit=1&accept_license_agreement=accepted'
+RUN dpkg -i JLink_Linux_V632g_x86_64.deb
+
+RUN mkdir -p /usr/local/nrfjprog && wget -qO- https://www.nordicsemi.com/eng/nordic/download_resource/58852/29/98625018/94917 | tar -C /usr/local/nrfjprog/ -xvf -
+
 RUN mkdir -p /usr/src/; cd /usr/src/ \
     && git clone --depth 1 https://github.com/ntfreak/openocd.git \
     && cd openocd \
