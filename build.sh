@@ -3,21 +3,21 @@
 pkill openocd
 
 if [[ "$1" == "debug" ]]; then
-    make -C $MAKEPATH clean $TARGET flash \
+    make -C $MAKEPATH clean && make -C $MAKEPATH $TARGET flash \
     && (openocd -f $OPENOCD_INTERFACE -c "transport select swd" \
         -f $OPENOCD_TARGET > /dev/null 2>&1 &) \
     && arm-none-eabi-gdb -tui $OUTPATH/$TARGET.out
 elif [[ "$1" == "debug-notui" ]]; then
-    make -C $MAKEPATH clean $TARGET flash \
+    make -C $MAKEPATH clean && make -C $MAKEPATH $TARGET flash \
     && (openocd -f $OPENOCD_INTERFACE -c "transport select swd" \
         -f $OPENOCD_TARGET > /dev/null 2>&1 &) \
     && arm-none-eabi-gdb $OUTPATH/$TARGET.out
 elif [[ "$1" == "openocd" ]]; then
-		make -C $MAKEPATH clean $TARGET flash \
+		make -C $MAKEPATH clean && make -C $MAKEPATH $TARGET flash \
 		&& (openocd -f $OPENOCD_INTERFACE -c "transport select swd" \
 				-f $OPENOCD_TARGET > /dev/null 2>&1)
 elif [[ "$1" == "flash" || "$1" == "f" ]]; then
-    make -C $MAKEPATH clean $TARGET flash
+    make -C $MAKEPATH clean && make -C $MAKEPATH $TARGET flash
 		make -C $MAKEPATH clean
 elif [[ "$1" == "boot" ]]; then
 		if [ ! -d "$OUTPATH" ]; then
@@ -35,5 +35,5 @@ elif [[ "$1" == "clean" ]]; then
 elif [[ "$1" == 'erase' ]]; then
     nrfjprog -e -f nrf52
 else
-    make -C $MAKEPATH clean $TARGET
+    make -C $MAKEPATH clean && make -C $MAKEPATH $TARGET
 fi
