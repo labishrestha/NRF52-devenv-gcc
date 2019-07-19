@@ -1,5 +1,5 @@
 FROM ubuntu:xenial
-
+# Setup
 RUN dpkg --add-architecture i386 && \
   apt-get update && apt-get install -y \
             wget \
@@ -26,17 +26,12 @@ RUN dpkg --add-architecture i386 && \
             pkg-config \
             sudo
 
-RUN wget https://launchpad.net/gcc-arm-embedded/4.9/4.9-2015-q3-update/+download/gcc-arm-none-eabi-4_9-2015q3-20150921-linux.tar.bz2
-RUN mkdir -p /usr/local/ && tar -xf gcc-arm-none-eabi-4_9-2015q3-20150921-linux.tar.bz2 -C /usr/local
-
+# Download and install arm-gcc
 RUN wget https://developer.arm.com/-/media/Files/downloads/gnu-rm/7-2017q4/gcc-arm-none-eabi-7-2017-q4-major-linux.tar.bz2
 RUN tar -xf gcc-arm-none-eabi-7-2017-q4-major-linux.tar.bz2 -C /usr/local
 
-RUN wget https://www.segger.com/downloads/jlink/JLink_Linux_V632g_x86_64.deb --post-data='submit=1&accept_license_agreement=accepted'
-RUN dpkg -i JLink_Linux_V632g_x86_64.deb
 
-RUN mkdir -p /usr/local/nrfjprog && wget -qO- https://www.nordicsemi.com/eng/nordic/download_resource/58852/29/98625018/94917 | tar -C /usr/local/nrfjprog/ -xvf -
-
+# Download and install openocd
 RUN mkdir -p /usr/src/; cd /usr/src/ \
     && git clone --depth 1 https://github.com/ntfreak/openocd.git \
     && cd openocd \
@@ -48,6 +43,15 @@ RUN mkdir -p /usr/src/; cd /usr/src/ \
     && cd .. \
     && rm -rf openocd \
     && echo 'set auto-load safe-path /' >> ~/.gdbinit
+
+# Clone CMSIS libraries
 RUN cd /usr/src/ && git clone https://github.com/ARM-software/CMSIS.git
+
+# Install pip
 RUN cd /usr/local/ && wget https://bootstrap.pypa.io/get-pip.py && python2.7 get-pip.py
 RUN pip install nrfutil
+
+# Download and install nrfjprog
+RUN wget https://www.nordicsemi.com/-/media/Software-and-other-downloads/Desktop-software/nRF-command-line-tools/sw/Versions-10-x-x/nRFCommandLineTools1021Linuxamd64tar.gz
+RUN tar -xvzf nRFCommandLineTools1021Linuxamd64tar.gz
+RUN dpkg -R --install *.deb
