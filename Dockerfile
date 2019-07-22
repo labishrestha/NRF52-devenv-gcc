@@ -30,6 +30,10 @@ RUN dpkg --add-architecture i386 && \
 RUN wget https://developer.arm.com/-/media/Files/downloads/gnu-rm/7-2017q4/gcc-arm-none-eabi-7-2017-q4-major-linux.tar.bz2
 RUN tar -xf gcc-arm-none-eabi-7-2017-q4-major-linux.tar.bz2 -C /usr/local
 
+# Download and install nrfjprog
+RUN wget https://www.nordicsemi.com/-/media/Software-and-other-downloads/Desktop-software/nRF-command-line-tools/sw/Versions-10-x-x/nRFCommandLineTools1021Linuxamd64tar.gz
+RUN tar -xvzf nRFCommandLineTools1021Linuxamd64tar.gz
+RUN dpkg -R --install *.deb
 
 # Download and install openocd
 RUN mkdir -p /usr/src/; cd /usr/src/ \
@@ -50,8 +54,3 @@ RUN cd /usr/src/ && git clone https://github.com/ARM-software/CMSIS.git
 # Install pip
 RUN cd /usr/local/ && wget https://bootstrap.pypa.io/get-pip.py && python2.7 get-pip.py
 RUN pip install nrfutil
-
-# Download and install nrfjprog
-RUN wget https://www.nordicsemi.com/-/media/Software-and-other-downloads/Desktop-software/nRF-command-line-tools/sw/Versions-10-x-x/nRFCommandLineTools1021Linuxamd64tar.gz
-RUN tar -xvzf nRFCommandLineTools1021Linuxamd64tar.gz
-RUN dpkg -R --install *.deb
